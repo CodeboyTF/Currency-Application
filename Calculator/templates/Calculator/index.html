@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        select {
+            padding: 10px;
+            width: 85%;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        p.error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Currency Converter</h1>
+        <form method="get">
+            <label for="amount">Amount:</label><br>
+            <input type="text" id="amount" name="amount" required><br><br>
+
+            <label for="from_currency">From:</label><br>
+            <select id="from_currency" name="from_currency">
+                {% for code in currencies %}
+                    <option value="{{ code }}" {% if code == 'ZAR' %}selected{% endif %}>{{ code }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="to_currency">To:</label><br>
+            <select id="to_currency" name="to_currency">
+                {% for code in currencies %}
+                    <option value="{{ code }}" {% if code == 'USD' %}selected{% endif %}>{{ code }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <button type="submit">Convert</button>
+        </form>
+
+        {% if result %}
+            {% if result.error %}
+                <p class="error">{{ result.error }}</p>
+            {% else %}
+                <p>{{ result.original }} {{ result.from_currency }} = {{ result.converted }} {{ result.to_currency }}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>
